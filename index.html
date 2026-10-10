@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Get Up, Loser</title>
+<meta name="description" content="A free fitness app that roasts you off the couch. Rude notifications that quote your real step count, in a voice you pick.">
+<meta property="og:title" content="Get Up, Loser">
+<meta property="og:description" content="A free app that roasts you off the couch.">
+<meta name="theme-color" content="#2B1B12">
+<link rel="icon" href="favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caprasimo&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #2B1B12; --panel: #3A2619; --panelHi: #4B3222; --rib: #5C3D2A;
+    --ink: #EFE2C8; --text: #F6EBD6; --muted: #CDB596;
+    --gold: #E2A72E; --onGold: #2B1B12; --rust: #D0603A; --olive: #9AA74E; --teal: #5FB0B4;
+    --display: 'Caprasimo', Georgia, serif;
+    --sans: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  html { background: var(--bg); color: var(--text); font: 17px/1.55 var(--sans); }
+  body { margin: 0; }
+  ::selection { background: var(--gold); color: var(--onGold); }
+  a { color: var(--gold); text-underline-offset: 3px; }
+  a:focus-visible, button:focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; border-radius: 6px; }
+  .wrap { max-width: 1040px; margin: 0 auto; padding: 0 20px; }
+  header.top { display: flex; align-items: center; justify-content: space-between; padding: 20px 0; }
+  .mark { font: 26px/1 var(--display); color: var(--gold); text-decoration: none; }
+  .hero { display: grid; grid-template-columns: 1.15fr 1fr; gap: 40px; align-items: center; padding: 24px 0 64px; }
+  .hero svg { width: 100%; height: auto; display: block; }
+  h1 { font: clamp(40px, 6vw, 68px)/1.02 var(--display); margin: 0 0 20px; letter-spacing: -0.01em; text-wrap: balance; }
+  .lede { font-size: 20px; color: var(--text); margin: 0 0 24px; max-width: 34ch; }
+  /* A status, not a button: dashed = pending, the same state language as the app. */
+  .status { display: inline-flex; align-items: center; gap: 10px; color: var(--gold); font-weight: 700; padding: 12px 18px; border-radius: 16px; border: 2px dashed var(--gold); }
+  .fine { color: var(--muted); margin-top: 14px; font-size: 15px; }
+
+  .voices { padding: 56px 0; border-top: 1px solid var(--panelHi); }
+  h2 { font: clamp(30px, 4vw, 44px)/1.1 var(--display); margin: 0 0 28px; text-wrap: balance; }
+  .bubbles { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+  .bubble { background: var(--panel); border: 2px solid var(--ink); border-radius: 24px; padding: 20px 24px 26px; }
+  .bubble .who { color: var(--muted); font-weight: 700; font-size: 15px; display: flex; gap: 10px; align-items: center; }
+  .dot { width: 14px; height: 14px; border-radius: 50%; display: inline-block; }
+  .bubble p { font: 24px/1.25 var(--display); margin: 10px 0 0; }
+  .bubble.sergeant p { text-transform: uppercase; font-size: 21px; }
+
+  .how { padding: 56px 0; border-top: 1px solid var(--panelHi); display: grid; grid-template-columns: 1fr 1.3fr; gap: 40px; }
+  .how ol { margin: 0; padding: 0; list-style: none; display: grid; gap: 26px; }
+  .how li strong { display: block; font: 22px/1.2 var(--display); margin-bottom: 4px; }
+  .how li span { color: var(--muted); }
+  .ribs { display: flex; gap: 6px; align-items: center; margin-top: 22px; }
+  .ribs i { width: 5px; height: 22px; border-radius: 3px; background: var(--rib); }
+  .ribs i:nth-child(odd) { height: 26px; }
+  .ribs i.on { background: var(--gold); }
+
+  .promise { padding: 48px 0 64px; border-top: 1px solid var(--panelHi); }
+  .promise p { max-width: 62ch; color: var(--text); }
+  footer { border-top: 1px solid var(--panelHi); padding: 28px 0 48px; color: var(--muted); font-size: 15px; display: flex; gap: 20px; flex-wrap: wrap; justify-content: space-between; }
+
+  @media (max-width: 820px) {
+    .hero, .how { grid-template-columns: 1fr; }
+    .bubbles { grid-template-columns: 1fr; }
+    .hero { padding-bottom: 40px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <a class="mark" href="./">Get Up, Loser</a>
+    <a href="privacy.html">Privacy</a>
+  </header>
+
+  <section class="hero">
+    <div>
+      <h1>The fitness app that roasts you off the couch.</h1>
+      <p class="lede">Rude notifications at random times, quoting your real step count, in a voice you pick. Until you go for a walk.</p>
+      <div class="status">Coming soon to Android and iPhone. Free.</div>
+      <p class="fine">No account. No ads. Your steps never leave your phone.</p>
+    </div>
+    <div id="scene" role="img" aria-label="A sketch of someone slumped on a couch, scrolling their phone"></div>
+  </section>
+
+  <section class="voices">
+    <h2>Pick who yells at you.</h2>
+    <div class="bubbles">
+      <div class="bubble"><div class="who"><span class="dot" style="background:var(--rust)"></span>The Roaster</div>
+        <p>Netflix keeps asking if you're still watching. I'm asking if you can still stand.</p></div>
+      <div class="bubble sergeant"><div class="who"><span class="dot" style="background:var(--olive)"></span>Drill Sergeant</div>
+        <p>That couch is not standard issue! Who the heck signed it out to you?!</p></div>
+      <div class="bubble"><div class="who"><span class="dot" style="background:var(--gold)"></span>Disappointed Mom</div>
+        <p>Mrs. Patterson's son walks 10,000 steps a day. He also calls his mother. Anyway.</p></div>
+      <div class="bubble"><div class="who"><span class="dot" style="background:var(--teal)"></span>The Butler</div>
+        <p>Your chair has requested a holiday. Quite well deserved, I'd say.</p></div>
+    </div>
+  </section>
+
+  <section class="how">
+    <h2>It knows when you've been sitting.</h2>
+    <ol>
+      <li><strong>Real numbers</strong><span>Roasts quote the steps your phone already counts. 212 by 3pm gets a different line than 6,000.</span></li>
+      <li><strong>Sitting alerts</strong><span>Ninety minutes without moving, inside the hours you choose, and someone has something to say about it.</span></li>
+      <li><strong>Morning recap</strong><span>Yesterday's total, delivered first thing, in your tormentor's voice. Good days get grudging respect.</span></li>
+      <li><strong>You set the meanness</strong><span>Mild, Spicy or Unhinged, with swearing opt-in. Pause it any time. It roasts what you do, never who you are.</span>
+        <div class="ribs" aria-hidden="true"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></li>
+    </ol>
+  </section>
+
+  <section class="promise">
+    <h2>Mean, not nosy.</h2>
+    <p>There's no account and nothing to sign up for. Your step count, your name and your roasts stay on your phone. Anonymous usage stats are off unless you turn them on, and they never include health data. The details are in the <a href="privacy.html">privacy policy</a>.</p>
+  </section>
+
+  <footer>
+    <span>Get Up, Loser</span>
+    <a href="privacy.html">Privacy policy</a>
+  </footer>
+</div>
+
+<script src="sketch.js"></script>
+<script>
+  // Line boil: cycle the rough.js frames at ~6fps. Static when the visitor prefers reduced motion.
+  (function () {
+    var COLORS = { ink: '#EFE2C8', rib: '#5C3D2A', panel: '#5B3A26', cushion: '#7A4E30', pants: '#3E6F78', sock: '#C4502A', shirt: '#E2A72E', skin: '#EBC9A0', hair: '#4A2E1E', screen: '#BFE6E3', glow: '#BFE6E3', accent: '#E2A72E', bg: '#2B1B12' };
+    var host = document.getElementById('scene');
+    var frames = window.SKETCH.couch.map(function (f) {
+      return '<svg viewBox="10 54 340 166" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">' + f.map(function (p) {
+        return p.fill
+          ? '<path d="' + p.d + '" fill="' + COLORS[p.c] + '"/>'
+          : '<path d="' + p.d + '" fill="none" stroke="' + COLORS[p.c] + '" stroke-width="' + p.w + '" stroke-linecap="round" stroke-linejoin="round"/>';
+      }).join('') + '</svg>';
+    });
+    var i = 0;
+    host.innerHTML = frames[0];
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    setInterval(function () { i = (i + 1) % frames.length; host.innerHTML = frames[i]; }, 160);
+  })();
+</script>
+</body>
+</html>
