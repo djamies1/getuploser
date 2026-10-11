@@ -121,21 +121,35 @@
 
 <script src="sketch.js"></script>
 <script>
-  // Line boil: cycle the rough.js frames at ~6fps. Static when the visitor prefers reduced motion.
+  // Line boil at ~6fps, with a different member of the couch cast every few seconds
+  // (same layered drawings as the app; see scripts/sketch-cast.mjs). Still under reduced motion.
   (function () {
-    var COLORS = { ink: '#EFE2C8', rib: '#5C3D2A', panel: '#5B3A26', cushion: '#7A4E30', pants: '#3E6F78', sock: '#C4502A', shirt: '#E2A72E', skin: '#EBC9A0', hair: '#4A2E1E', screen: '#BFE6E3', glow: '#BFE6E3', accent: '#E2A72E', bg: '#2B1B12' };
+    var BASE = { blanket: '#7C9A6A', ink: '#EFE2C8', rib: '#5C3D2A', panel: '#5B3A26', cushion: '#7A4E30', pants: '#3E6F78', sock: '#C4502A', screen: '#BFE6E3', glow: '#BFE6E3', accent: '#E2A72E', bg: '#2B1B12' };
+    var D = window.SKETCH.cast;
     var host = document.getElementById('scene');
-    var frames = window.SKETCH.couch.map(function (f) {
-      return '<svg viewBox="10 54 340 166" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">' + f.map(function (p) {
+    function paths(frame, colors) {
+      return frame.map(function (p) {
         return p.fill
-          ? '<path d="' + p.d + '" fill="' + COLORS[p.c] + '"/>'
-          : '<path d="' + p.d + '" fill="none" stroke="' + COLORS[p.c] + '" stroke-width="' + p.w + '" stroke-linecap="round" stroke-linejoin="round"/>';
-      }).join('') + '</svg>';
-    });
-    var i = 0;
-    host.innerHTML = frames[0];
+          ? '<path d="' + p.d + '" fill="' + colors[p.c] + '"/>'
+          : '<path d="' + p.d + '" fill="none" stroke="' + colors[p.c] + '" stroke-width="' + p.w + '" stroke-linecap="round" stroke-linejoin="round"/>';
+      }).join('');
+    }
+    function compose(ci, k) {
+      var c = D.cast[ci], pose = D.poses.scroll, s = k % 3, m = Math.floor(k / 3) % 2, hair = D.hair[c.hair];
+      var colors = Object.assign({}, BASE, { skin: c.skin, hair: c.hairC, hairHi: c.hairHi, shirt: c.shirt, hat: c.hat || c.hairC });
+      var onHead = (hair.back ? paths(hair.back[s], colors) : '') + paths(D.head[s], colors) + paths(D.faces[pose.face[m]][s], colors)
+        + c.extras.map(function (e) { return paths(D.extras[e][s], colors); }).join('') + paths(hair.front[s], colors);
+      return '<svg viewBox="10 54 340 166" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">' + paths(D.couch[s], colors) + paths(pose.under[m][s], colors)
+        + '<g transform="translate(' + pose.head[0] + ' ' + pose.head[1] + ') rotate(' + pose.head[2] + ')">' + onHead + '</g>' + paths(pose.over[m][s], colors) + '</svg>';
+    }
+    var who = Math.floor(Date.now() / 86400000) % D.cast.length, k = 0, ticks = 0;
+    host.innerHTML = compose(who, 0);
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    setInterval(function () { i = (i + 1) % frames.length; host.innerHTML = frames[i]; }, 160);
+    setInterval(function () {
+      k = (k + 1) % 6;
+      if (++ticks % 22 === 0) who = (who + 1) % D.cast.length; // a new person about every 3.5s
+      host.innerHTML = compose(who, k);
+    }, 160);
   })();
 </script>
 </body>
